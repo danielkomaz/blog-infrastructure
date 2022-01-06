@@ -1,0 +1,40 @@
+include:
+  - template: Terraform.latest.gitlab-ci.yml # https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Terraform/Base.latest.gitlab-ci.yml
+
+stages:
+  - validate
+  - build
+  - deploy
+  - destroy
+
+validate:
+  stage: validate
+  extends: .terraform:validate
+
+build:
+  stage: build
+  extends: .terraform:build
+  needs:
+    - job: validate
+  environment:
+    name: blog_production
+
+deploy:
+  stage: deploy
+  extends: .terraform:deploy
+  needs:
+    - job: build
+  environment:
+    name: blog_production
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      when: manual
+
+destroy:
+  stage: destroy
+  extends: .terraform:destroy
+  needs:
+    - job: deploy
+  environment:
+    name: blog_production
+  when: manual
