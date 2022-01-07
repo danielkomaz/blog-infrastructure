@@ -3,6 +3,7 @@ include:
 
 stages:
   - validate
+  - test
   - build
   - deploy
   - destroy
@@ -16,6 +17,7 @@ build:
   extends: .terraform:build
   needs:
     - job: validate
+    - job: test
 
 deploy:
   stage: deploy
