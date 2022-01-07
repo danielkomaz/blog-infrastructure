@@ -1,5 +1,5 @@
 include:
-  - template: Terraform.gitlab-ci.yml # https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Terraform.gitlab-ci.yml
+  - template: Terraform.latest.gitlab-ci.yml # https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Terraform.latest.gitlab-ci.yml
 
 stages:
   - validate
@@ -10,22 +10,22 @@ stages:
 
 validate:
   stage: validate
-  extends: .terraform:validate
+  extends: .validate
 # build:
 #   stage: build
-#   extends: .terraform:build
+#   extends: .build
 #   needs:
 #     - job: validate
 #     - job: test
 
 # deploy:
 #   stage: deploy
-#   extends: .terraform:deploy
+#   extends: .deploy
 #   needs:
 #     - job: build
 
 # destroy:
 #   stage: destroy
-#   extends: .terraform:destroy
+#   extends: .destroy
 #   needs:
 #     - job: deploy
