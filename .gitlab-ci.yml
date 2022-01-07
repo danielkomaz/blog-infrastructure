@@ -3,30 +3,29 @@ include:
 
 stages:
   - validate
-  - test
-  - build
-  - deploy
-  - destroy
+  # - test
+  # - build
+  # - deploy
+  # - destroy
 
 validate:
   stage: validate
   extends: .terraform:validate
+# build:
+#   stage: build
+#   extends: .terraform:build
+#   needs:
+#     - job: validate
+#     - job: test
 
-build:
-  stage: build
-  extends: .terraform:build
-  needs:
-    - job: validate
-    - job: test
+# deploy:
+#   stage: deploy
+#   extends: .terraform:deploy
+#   needs:
+#     - job: build
 
-deploy:
-  stage: deploy
-  extends: .terraform:deploy
-  needs:
-    - job: build
-
-destroy:
-  stage: destroy
-  extends: .terraform:destroy
-  needs:
-    - job: deploy
+# destroy:
+#   stage: destroy
+#   extends: .terraform:destroy
+#   needs:
+#     - job: deploy
