@@ -24,7 +24,7 @@ deploy:
   when: manual
 
 destroy:
-  extends: .destroy
+  extends: .cleanup
   dependencies:
     - deploy
   when: manual
