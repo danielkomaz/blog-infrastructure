@@ -6,7 +6,7 @@ stages:
   - validate
   - build
   - deploy
-  - destroy
+  - cleanup
 
 init:
   extends: .init
@@ -23,8 +23,8 @@ deploy:
     - build
   when: manual
 
-destroy:
-  extends: .cleanup
+cleanup:
+  extends: .destroy
   dependencies:
     - deploy
   when: manual
