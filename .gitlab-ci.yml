@@ -1,47 +1,30 @@
-image:
-  name: hashicorp/terraform:latest
-  entrypoint:
-    - "/usr/bin/env"
-    - "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-
-before_script:
-  - rm -rf .terraform
-  - terraform --version
-  - terraform init
+include:
+  - template: Terraform/Base.gitlab-ci.yml # https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Terraform/Base.latest.gitlab-ci.yml
 
 stages:
+  - init
   - validate
-  - plan
-  - apply
+  - build
+  - deploy
   - destroy
 
+init:
+  extends: .init
+
 validate:
-  stage: validate
-  script:
-    - terraform validate
+  extends: .validate
 
-plan:
-  stage: plan
-  script:
-    - terraform plan -out "planfile"
-  dependencies:
-    - validate
-  artifacts:
-    paths:
-      - ./planfile
+build:
+  extends: .build
 
-apply:
-  stage: apply
-  script:
-    - terraform apply "planfile"
-  only:
-    - master
+deploy:
+  extends: .deploy
   dependencies:
-    - plan
+    - build
   when: manual
 
 destroy:
-  stage: destroy
-  script:
-    - terraform destroy -"planfile"
+  extends: destroy
+  dependencies:
+    - deploy
   when: manual
